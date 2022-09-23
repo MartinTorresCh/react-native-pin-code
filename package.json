@@ -1,14 +1,14 @@
 {
-    "name": "@anhnch/react-native-pincode",
+    "name": "MARTOCH/react-native-pincode",
     "version": "1.2.5",
-    "description": "Pin Code component for React Native",
+    "description": "Pin Code component for React Native, Fork from: https://github.com/anhnch",
     "scripts": {
         "build": "tsc --project ./tsconfig.json"
     },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
-    "repository": "https://github.com/anhnch/react-native-pin-code.git",
-    "author": "Anh Nguyen <anhnch@gmail.com> https://github.com/anhnch",
+    "repository": "https://github.com/MartinTorresCh/react-native-pin-code",
+    "author": "MARTIN TORRES <martin.torres.ch@gmail.com> https://github.com/MartinTorresCh",
     "license": "MIT",
     "private": false,
     "devDependencies": {
