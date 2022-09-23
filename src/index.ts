@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-community/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import PinCode from "./PinCode";
 import { PinCodeT, PIN_KEY } from "./types";
 

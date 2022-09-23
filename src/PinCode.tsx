@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, Vibration, Text, TouchableOpacity, Platform, ViewStyle } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { PinCodeT, DEFAULT, PIN_KEY } from './types';
 import PinButton from './PinButton';
@@ -29,7 +29,8 @@ const PinCode = ({
     const [curOptions, setCurOptions] = useState<PinCodeT.Options>(DEFAULT.Options);
     const [curTextOptions, setCurTextOptions] = useState<PinCodeT.TextOptions>(DEFAULT.TextOptions);
     const [buttonsDisabled, disableButtons] = useState(false);
-
+    
+    
     useEffect(() => {
         setCurMode(mode);
         initialize();
