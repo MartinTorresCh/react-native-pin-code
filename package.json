@@ -1,5 +1,5 @@
 {
-    "name": "MARTOCH/react-native-pincode",
+    "name": "@martintorresch/react-native-pincode",
     "version": "1.2.5",
     "description": "Pin Code component for React Native, Fork from: https://github.com/anhnch",
     "scripts": {
