@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, ViewStyle, TextStyle } from 'react-native';
 import { PinCodeT, DEFAULT } from './types';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Clock = ({
     duration = DEFAULT.Options.lockDuration,
@@ -11,11 +12,11 @@ const Clock = ({
 	duration?: number;
 	style?: ViewStyle | ViewStyle[];
 	textStyle?: TextStyle | TextStyle[];
-	onFinish: () => void;
+	onFinish: () => void;    
 }) => {
-	const [countDown, setCountDown] = useState(null);   
-    const [nowTimer, setNowTimer] = useState(null);   
-    const [actual, setActual] = useState(null);  
+	const [countDown, setCountDown] = useState<any>(null);   
+    const [nowTimer, setNowTimer] = useState<any>(null);   
+    const [actual, setActual] = useState<any>(null);  
     useEffect(() => {
        
         const setTimerOperation = async () => {
@@ -23,7 +24,7 @@ const Clock = ({
             
             var pin_locked_finish = await AsyncStorage.getItem('@pin_locked_finish');
             if(pin_locked_finish){
-                if (parseInt(pin_locked_finish) > parseInt(Date.now())){
+                if (parseInt(pin_locked_finish) > parseInt(Date.now().toString())){
                     setNowTimer(parseInt(pin_locked_finish));
                     setCountDown(duration);
                 }else{
@@ -33,9 +34,9 @@ const Clock = ({
                 
             }else{
 
-                var clock_timer = parseInt(Date.now()) + parseInt(duration); 
+                var clock_timer = parseInt(Date.now().toString()) + parseInt(duration.toString()); 
                 await AsyncStorage.setItem('@pin_locked_finish',clock_timer.toString());   
-                setNowTimer(parseInt(clock_timer));
+                setNowTimer(parseInt(clock_timer.toString()));
                 setCountDown(duration);
             }
         }
@@ -48,10 +49,10 @@ const Clock = ({
        
             setTimeout(async () => {                
                 if(countDown != null){
-                    setCountDown(prevCountDown => parseInt(prevCountDown) - 1000);
+                    setCountDown(parseInt(countDown) - 1000);
                     
-                    if (parseInt(nowTimer) >= parseInt(Date.now())) {                        
-                        setActual(parseInt(nowTimer) - parseInt(Date.now()))      
+                    if (parseInt(nowTimer) >= parseInt(Date.now().toString())) {                        
+                        setActual(parseInt(nowTimer) - parseInt(Date.now().toString()))      
                     }
                     else {                                        
                         await AsyncStorage.removeItem('@pin_locked_finish');
