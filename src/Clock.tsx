@@ -13,21 +13,61 @@ const Clock = ({
 	textStyle?: TextStyle | TextStyle[];
 	onFinish: () => void;
 }) => {
-	const [countDown, setCountDown] = useState(duration);
+	const [countDown, setCountDown] = useState(null);   
+    const [nowTimer, setNowTimer] = useState(null);   
+    const [actual, setActual] = useState(null);  
+    useEffect(() => {
+       
+        const setTimerOperation = async () => {
 
-	useEffect(() => {
-		setTimeout(() => {
-			if (countDown > 1000) {
-				setCountDown(countDown - 1000);
-			} else {
-				onFinish();
-			}
-		}, 1000)
-	})
+            
+            var pin_locked_finish = await AsyncStorage.getItem('@pin_locked_finish');
+            if(pin_locked_finish){
+                if (parseInt(pin_locked_finish) > parseInt(Date.now())){
+                    setNowTimer(parseInt(pin_locked_finish));
+                    setCountDown(duration);
+                }else{
+                    await AsyncStorage.removeItem('@pin_locked_finish');
+                    onFinish();
+                }              
+                
+            }else{
 
-	return <View style={[styles.container, style]}>
-		<Text style={[styles.time, textStyle]}>{millisToMinutesAndSeconds(countDown)}</Text>
-	</View>
+                var clock_timer = parseInt(Date.now()) + parseInt(duration); 
+                await AsyncStorage.setItem('@pin_locked_finish',clock_timer.toString());   
+                setNowTimer(parseInt(clock_timer));
+                setCountDown(duration);
+            }
+        }
+
+        setTimerOperation().catch(()=>{});
+        
+    },[]);
+
+    useEffect(() => {
+       
+            setTimeout(async () => {                
+                if(countDown != null){
+                    setCountDown(prevCountDown => parseInt(prevCountDown) - 1000);
+                    
+                    if (parseInt(nowTimer) >= parseInt(Date.now())) {                        
+                        setActual(parseInt(nowTimer) - parseInt(Date.now()))      
+                    }
+                    else {                                        
+                        await AsyncStorage.removeItem('@pin_locked_finish');
+                        onFinish();
+                    }
+                }
+                
+            }, 1000);
+        
+        
+    },[countDown])
+    
+
+    return <View style={[styles.container, style]}>
+		<Text style={[styles.time, textStyle]}>{millisToMinutesAndSeconds(actual)}</Text>
+	</View>;
 }
 
 export function millisToMinutesAndSeconds(milliseconds: number): string {

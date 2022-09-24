@@ -37,6 +37,23 @@ const PinCode = ({
     }, [mode])
 
     useEffect(() => {
+
+        const setTimerOperation = async () => {
+            if(curMode == PinCodeT.Modes.Enter){
+                var pin_locked_finish = await AsyncStorage.getItem('@pin_locked_finish');                
+                if(pin_locked_finish){
+                    if (parseInt(pin_locked_finish) > parseInt(Date.now())){
+                        setCurMode(PinCodeT.Modes.Locked);
+                    }else{
+                        await AsyncStorage.removeItem('@pin_locked_finish');
+                    }
+                }
+            }
+        }
+        setTimerOperation().catch(()=>{});
+    }, [curMode]);
+
+    useEffect(() => {
         setCurOptions({ ...DEFAULT.Options, ...options });
     }, [options])
 
