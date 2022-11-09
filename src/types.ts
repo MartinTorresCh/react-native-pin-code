@@ -108,11 +108,11 @@ export const DEFAULT = {
     },
     TextOptions: {
         enter: {
-            title: 'Enter PIN',
-            subTitle: 'Enter {{pinLength}}-digit PIN to access.',
-            error: 'Wrong PIN! Try again.',
-            backSpace: 'Delete',
-            footerText: 'Forgot PIN?'
+            title: " ",//'Enter PIN',
+            subTitle: " ",//'Enter {{pinLength}}-digit PIN to access.',
+            error: " ",//'Wrong PIN! Try again.',
+            backSpace: " ",//'Delete',
+            footerText: " ",//'Forgot PIN?'
         },
         set: {
             title: 'Set up a new PIN',
